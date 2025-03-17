@@ -1,0 +1,47 @@
+? - to be disscused/tried while implementing
+
+player:
+- can use firearms (rifles, shotguns, pistols)
+- tactical menu (mb wrist menu) for managing npcs (and mb some aditional mechnics suitable for tactical mode. airstrike?)
+- ability to cast skills(probably option for different classes/skill types), also a way to choose skill (gestures?, shortcuts?, wheel menu?)
+- gathering of experience for killing mobs/completing objectives (portion of expirience is kept beetween "loops" for skill tree upgrades/modifiers)
+
+
+
+NPCs:
+- ability to act independently from the player (choosing to use support skills, trying to help finish the objective etc.)
+- AI's decisions should be heavily influenced by player orders (focusing target, supporting, defending target/area, pushing etc.)
+- ? posibly give characters their own character traits (like some characters prefering support role and they would focuse more on supporting the player?)
+- posibility to choose nps's skills before mision (probably should influence nps decision making if we drop character traits idea,
+	so for example nps with lots of supporting skills should focus on supporting the player, npcs with lots of AOE offensive skills focus on clearing etc)
+
+
+
+
+world/maps:
+- should be generated randomly each time (we could probably use some premade structures with randomized terrain for that, mainly so
+	we can assure stuff like places to hide behind, ways to flank and so on)
+- main map objective will be securing the portal (if we have time mb some other mission types) by:
+	* pushing towards it, while defeating enemies
+	* ? blocking the portal by interacting with it (it would stop new enemies waves emerging from the portal)
+	* clearing the surrounding area?/defending the portal from remaining enemies
+- after each mission player would come back to base to resupply/change their equipment (?we would probably need to make some balance changes to this
+	like limiting some resources, give resuply some type of cost so players are more motivated to preserve resources/play missions well)
+- each mission would be more difficult (probably spawning tougher enemies variants etc.)(we could also try similar system that RimWorld has
+	where raids have certain amount of points to spend on choosing enemies so players that are richer will get stronger raids. in our case
+	points would be calculated using mission number, how well player does in the mission etc)
+- ? boss missions from time to time
+
+
+
+enemies:
+- enemies inspired by fantasy (Yes we can use HoMM units if we want)
+- different enemy types with their own behaviour:
+	* weak enemies working in large groups/rushing the player using their numbers (possibly cooperate like Kobolds?)
+	* strong "tank" monsters
+	* ranged and suport enemies
+	* enemies that prefer flanking etc.
+- giving enemies some kind of scoring/points system to determine the amount of exp they give (probably also to calculate RimWorld inspired points an more)
+
+
+
