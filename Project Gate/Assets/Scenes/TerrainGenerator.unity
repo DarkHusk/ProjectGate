@@ -363,10 +363,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 1496308777}
-  scale: 800
+  scale: 512
   octaves: 30
-  persistance: 0.4
+  persistance: 0.5
   lacunarity: 1.9
+  seed: 21
 --- !u!1 &1577668353
 GameObject:
   m_ObjectHideFlags: 0
