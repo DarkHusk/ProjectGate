@@ -10,17 +10,17 @@ public class OpponentBase : MonoBehaviour
 {
 
      
-    int defense;
-    int baseAttack;
-    float damageInterval = 1f; // time in sec
-    float damageTimer = 0f;
-    float attackRange;
-    int enemyValue;
-    float _currentHealth;
-    private GameObject healthBar;
-    private Transform healthBarTransform;
-    private Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
-    NavMeshAgent agent;
+    protected int defense;
+    protected int baseAttack;
+    protected float damageInterval = 1f; // time in sec
+    protected float damageTimer = 0f;
+    protected float attackRange;
+    protected int enemyValue;
+    protected float _currentHealth;
+    protected private GameObject healthBar;
+    protected private Transform healthBarTransform;
+    protected private Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
+    protected NavMeshAgent agent;
 
 
     public float maxHealth;
@@ -45,10 +45,11 @@ public class OpponentBase : MonoBehaviour
     }
 
 
-    void Update()
+    protected void Update()
     {
         Move();
         FaceTarget();
+        Attack();
 
     }
 
@@ -123,7 +124,7 @@ public class OpponentBase : MonoBehaviour
     }
 
 
-    void CreateHealthBar()
+    protected void CreateHealthBar()
     {
         // Create a health bar
         healthBar = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -139,10 +140,10 @@ public class OpponentBase : MonoBehaviour
         //healthBarRenderer.material = new Material(Shader.Find("Standard"));
 
         UpdateHealthBar();
-        Debug.LogError("atakujowany przeciwnik");
+        //Debug.LogError("atakujowany przeciwnik");
     }
 
-    void UpdateHealthBar()
+    protected void UpdateHealthBar()
     {
         if (healthBar == null)
         {
@@ -163,7 +164,7 @@ public class OpponentBase : MonoBehaviour
         }
     }
 
-    void FaceTarget(){
+    protected void FaceTarget(){
         
         Vector3 direction = (player.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));

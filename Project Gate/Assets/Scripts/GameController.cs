@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public OpponentBase opponent;
+    public Golem opponent;
 
     float damageInterval = 1f; // time in sec
     float damageTimer = 0f;
@@ -11,13 +11,13 @@ public class GameController : MonoBehaviour
     void FixedUpdate()
     { if (opponent != null)
         {
-            opponent.Attack();
+           // opponent.Attack();
 
             damageTimer += Time.fixedDeltaTime;
 
             if (damageTimer >= damageInterval)
             {
-                opponent.TakeDamage(5);
+                opponent.TakeDamage(30);
 
                 damageTimer = 0f;
             }
