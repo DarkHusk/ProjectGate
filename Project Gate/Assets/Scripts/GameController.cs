@@ -5,7 +5,7 @@ public class GameController : MonoBehaviour
 {
     public Golem opponent;
 
-    float damageInterval = 1f; // time in sec
+    float damageInterval = 2f; // time in sec
     float damageTimer = 0f;
 
     void FixedUpdate()
@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
             if (damageTimer >= damageInterval)
             {
                 opponent.TakeDamage(30);
+                Debug.Log("Opponent hit! Health: " + opponent.currentHealth);
 
                 damageTimer = 0f;
             }

@@ -127,14 +127,16 @@ public class OpponentBase : MonoBehaviour
     protected void CreateHealthBar()
     {
         // Create a health bar
-        healthBar = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        healthBar = GameObject.CreatePrimitive(PrimitiveType.Cube);
+    
+
         healthBarTransform = healthBar.transform;
         Destroy(healthBar.GetComponent<Collider>()); // Remove the collider
 
         // Set parent and position
         healthBarTransform.SetParent(transform);
         healthBarTransform.localPosition = healthBarOffset;
-        healthBarTransform.localRotation = Quaternion.Euler(90, 0, 0);
+        healthBarTransform.localRotation = Quaternion.Euler(90, 2, 2);
 
         var healthBarRenderer = healthBar.GetComponent<Renderer>();
         //healthBarRenderer.material = new Material(Shader.Find("Standard"));
@@ -151,7 +153,7 @@ public class OpponentBase : MonoBehaviour
         }
 
         float healthPercentage = _currentHealth / maxHealth;
-        healthBarTransform.localScale = new Vector3(healthPercentage * 4, 1f, 1);
+        healthBarTransform.localScale = new Vector3(healthPercentage * 4, 0.1f, 0.1f);
 
         // Change color based on health percentage
         var healthBarRenderer = healthBar.GetComponent<Renderer>();
