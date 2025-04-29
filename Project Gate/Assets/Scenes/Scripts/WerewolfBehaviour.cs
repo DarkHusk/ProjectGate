@@ -8,10 +8,10 @@ public class Werewolf : OpponentBase
 
     private bool isAttacking = false;
 
-    [SerializeField] private float orbitRadius = 3f; // promie� okr��ania
-    [SerializeField] private float orbitSpeed = 2f; // pr�dko�� poruszania si� wok� gracza
+    [SerializeField] private float orbitRadius = 2f; // promie� okr��ania
+    [SerializeField] private float orbitSpeed = 40f; // pr�dko�� poruszania si� wok� gracza
     [SerializeField] private float backstabAngleThreshold = 60f; // zakres k�towy za plecami gracza
-    [SerializeField] private float attackDistance = 2f; // dystans do ataku
+    [SerializeField] private float attackDistance = 1f; // dystans do ataku
 
     private bool isCircling = false;
     private float orbitAngle = 0f;
@@ -29,7 +29,7 @@ public class Werewolf : OpponentBase
        // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
         CreateHealthBar();
 
-        speed = 1.5f;
+        speed = 4f;
         if (agent != null)
         {
             agent.speed = speed;
@@ -48,63 +48,63 @@ public class Werewolf : OpponentBase
 
     }
 
-    public  void Move()
+    public void Move()
     {
         if (player == null || isAttacking || currentHealth <= 0) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-        // Zatrzymaj się, jeśli zbyt blisko gracza
-       /* if (distanceToPlayer < orbitRadius * 0.9f)
-        {
-            agent.SetDestination(transform.position);
-            return;
-        }*/
-
         if (!isCircling)
         {
             if (distanceToPlayer > orbitRadius + 0.5f)
             {
-                agent.SetDestination(player.transform.position); // Biegnij w stronę gracza
+                agent.SetDestination(player.transform.position);
             }
             else
             {
                 isCircling = true;
-                orbitAngle = Random.Range(0f, 360f); // Losowy punkt startowy orbity
+
+                
+                Vector3 direction = (transform.position - player.transform.position).normalized;
+                orbitAngle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
             }
         }
         else
         {
-            // Płynne krążenie 
-
+            
             orbitAngle += orbitSpeed * Time.deltaTime;
-
-            // Oblicz pozycję na orbicie
+            float dynamicRadius = orbitRadius + Mathf.Sin(Time.time * 0.5f) * 0.5f;
             Vector3 offset = new Vector3(
                 Mathf.Cos(orbitAngle * Mathf.Deg2Rad),
                 0,
                 Mathf.Sin(orbitAngle * Mathf.Deg2Rad)
-            ) * orbitRadius;
+            ) * dynamicRadius;
 
-            Vector3 orbitPosition = player.transform.position + offset;
-            agent.SetDestination(orbitPosition);
+            Vector3 orbitTarget = player.transform.position + offset;
 
-           
+            agent.SetDestination(orbitTarget);
+            CheckAttackCondition(distanceToPlayer);
 
-            // Sprawdź, czy można zaatakować (backstab)
+            Debug.DrawLine(transform.position, orbitTarget, Color.red);
+        }
+    }
+
+    private void CheckAttackCondition(float distanceToPlayer)
+    {
+        if (distanceToPlayer <= attackDistance)
+        {
             Vector3 toEnemy = (transform.position - player.transform.position).normalized;
             float angle = Vector3.Angle(player.transform.forward, toEnemy);
 
-            if (distanceToPlayer <= attackDistance && angle < backstabAngleThreshold)
+           if (angle > 180f - backstabAngleThreshold / 2f && angle < 180f + backstabAngleThreshold / 2f)
             {
                 isCircling = false;
                 Attack();
-                Debug.Log("were attacks " );
+                Debug.Log("Atak od tyłu!");
             }
-           
         }
-        Debug.DrawLine(transform.position, agent.destination, Color.red);
     }
+
 
 
 
