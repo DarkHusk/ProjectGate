@@ -17,12 +17,12 @@ public class OpponentBase : MonoBehaviour
     protected float attackRange;
     protected int enemyValue;
     protected float _currentHealth;
-    protected private GameObject healthBar;
-    protected private Transform healthBarTransform;
-    protected private Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
-    protected NavMeshAgent agent;
+    protected  GameObject healthBar;
+    protected  Transform healthBarTransform;
+    protected  Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
 
 
+    public NavMeshAgent agent;
     public float maxHealth;
     public PlayerTest player;
     public float speed ;
@@ -44,8 +44,22 @@ public class OpponentBase : MonoBehaviour
         }
     }
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public virtual void Start() //virtual
+    {
+        currentHealth = 100;
+        maxHealth = currentHealth;
+        defense = 10;
+        baseAttack = 5;
 
-    protected void Update()
+        agent = GetComponent<NavMeshAgent>();
+
+        player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
+        CreateHealthBar();
+
+    }
+
+    public virtual void Update()
     {
         Move();
         FaceTarget();
@@ -61,7 +75,7 @@ public class OpponentBase : MonoBehaviour
        
         if (currentHealth > 0 && Vector3.Distance(transform.position, player.transform.position) >= 1)
         {
-            agent.SetDestination(player.transform.position);
+           // agent.SetDestination(player.transform.position);
             
         }
     }
@@ -83,20 +97,7 @@ public class OpponentBase : MonoBehaviour
     }
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public virtual void Start() //virtual
-    {
-        currentHealth = 100;            
-        maxHealth = currentHealth;
-        defense = 10;
-        baseAttack = 5;
-
-        agent = GetComponent<NavMeshAgent>();
-       
-        player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
-        CreateHealthBar();
-        
-    }
+   
 
     public virtual void Attack() // virtual
     {

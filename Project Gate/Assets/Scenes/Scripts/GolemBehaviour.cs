@@ -12,9 +12,9 @@ public class Golem : OpponentBase
     public float attackAngle = 60f;  
     public Animator animator;
 
-    private bool isAttacking = false;
+    protected bool isAttacking = false;
 
-    public override void Start()
+    public void Start()
     {
         currentHealth = 300;
         maxHealth = currentHealth;
@@ -23,7 +23,7 @@ public class Golem : OpponentBase
 
         agent = GetComponent<NavMeshAgent>();
 
-        player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
+       // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
         CreateHealthBar();
         
         speed = 1.5f; 
@@ -38,19 +38,33 @@ public class Golem : OpponentBase
         }
     }
 
-    public override void Move()
+    void Update()
+    {
+        Move();
+        FaceTarget();
+        Attack();
+
+    }
+
+    public  void Move()
     {
         if (player == null || isAttacking) return;
 
-        if (currentHealth > 0 && Vector3.Distance(transform.position, player.transform.position) >= 1)
+        if (currentHealth > 0 && Vector3.Distance(transform.position, player.transform.position) >= 2)
         {
+            agent.isStopped = false;
             agent.SetDestination(player.transform.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
         }
     }
 
-    public override void Attack()
+    public void Attack()
     {
-        if (isAttacking || player == null || Vector3.Distance(transform.position, player.transform.position) >= 1)
+        if (isAttacking || player == null || Vector3.Distance(transform.position, player.transform.position) >= 2)
             return;
 
         
@@ -63,7 +77,7 @@ public class Golem : OpponentBase
         Invoke(nameof(DoAttack), attackDelay);
     }
 
-    private void DoAttack()
+    protected void DoAttack()
     {
         
         Vector3 toPlayer = player.transform.position - transform.position;

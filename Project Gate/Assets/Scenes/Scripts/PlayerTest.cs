@@ -11,7 +11,7 @@ public class PlayerTest : MonoBehaviour
     public void TakeDamage(float dmg)
     {
         health -= dmg;
-        Debug.Log("Player hit! Health: " + health);
+        //Debug.Log("Player hit! Health: " + health);
     }
 
 }
