@@ -17,5 +17,16 @@ public class Werewolf : OpponentBase
         player = FindObjectOfType<PlayerTest>();
         CreateHealthBar();
     }
-    
+
+    public override void Attack() 
+    {
+        if (Vector3.Distance(transform.position, player.transform.position) <= 3)
+        {
+
+            player.TakeDamage(baseAttack);
+            Debug.Log("atak");
+        }
+
+    }
+
 }
