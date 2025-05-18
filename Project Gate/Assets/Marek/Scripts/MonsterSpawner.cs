@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    public GameObject monsterPrefab;
+    public List<GameObject> monsterPrefabs = new List<GameObject>();
+    //public GameObject monsterPrefab;
     public float spawnRadius = 10f;
     public int initialnumberOfMonsters = 5;
     public int maxNumberOfMonsters = 10;
@@ -20,12 +22,18 @@ public class MonsterSpawner : MonoBehaviour
     public bool portalDefending = false, isPlayerInRange;
     private float defenseProgress = 0f;
     private float oneSecTimer = 0f;
+    public float defenseMaxTime = 100;
+    public float defenseUpValue = 1;
+    public float defenseDownValue = 0.25f;
     public float defendRadius = 20f;
     public float defenseActivationRadius = 10f;
     private GameObject defendRadiusSphere;
     private GameObject defenseActivationRadiusSphere;
     public bool teleportationTrigger = false;
     private float afterTimer = 15f;
+
+    //teleportation function stuff, probably I'll move it to separate class later:
+    public string sceneToLoad;
 
     private List<GameObject> spawnedMonsters = new List<GameObject>();
 
@@ -38,7 +46,7 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    void InitialSpawnMonsters()
+    /*void InitialSpawnMonsters()
     {
         int monstersSpawned = 0;
         while (monstersSpawned < initialnumberOfMonsters)
@@ -51,8 +59,28 @@ public class MonsterSpawner : MonoBehaviour
                 monstersSpawned++;
             }
         }
+    }*/
+    void InitialSpawnMonsters()
+    {
+        int monstersSpawned = 0;
+        while (monstersSpawned < initialnumberOfMonsters)
+        {
+            Vector3 spawnPosition = GetRandomPositionWithinCircle(spawnRadius);
+            int loopCnt = 0;
+            while (!IsPositionValid(spawnPosition) && loopCnt < 30 ) 
+            {
+                spawnPosition = GetRandomPositionWithinCircle(spawnRadius);
+                loopCnt++;
+            }
+            if(loopCnt==30 ) { break; }
+            GameObject monsterPrefab = monsterPrefabs[Random.Range(0, monsterPrefabs.Count)];
+            GameObject newMonster = Instantiate(monsterPrefab, spawnPosition, Quaternion.identity);
+            spawnedMonsters.Add(newMonster);
+            monstersSpawned++;
+
+        }
     }
-    void SpawnMonsters()
+    /*void SpawnMonsters()
     {
         CleanUpDestroyedMonsters();
         if (spawnedMonsters.Count < maxNumberOfMonsters)
@@ -64,11 +92,43 @@ public class MonsterSpawner : MonoBehaviour
                 spawnedMonsters.Add(newMonster);
             }
         }
+    }*/
+    void SpawnMonsters()
+    {
+        CleanUpDestroyedMonsters();
+        if (spawnedMonsters.Count < maxNumberOfMonsters)
+        {
+            float effectiveSpawnRadius = portalDefending ? spawnRadius + defendRadius : spawnRadius;
+            Vector3 spawnPosition = GetRandomPositionWithinCircle(effectiveSpawnRadius);
+            int loopCnt = 0;
+            while (!IsPositionValid(spawnPosition) && loopCnt < 30)  
+            {
+                spawnPosition = GetRandomPositionWithinCircle(effectiveSpawnRadius);
+                loopCnt++;
+            }
+            if (loopCnt < 30)
+            {
+                GameObject monsterPrefab = monsterPrefabs[Random.Range(0, monsterPrefabs.Count)];
+                GameObject newMonster = Instantiate(monsterPrefab, spawnPosition, Quaternion.identity);
+                spawnedMonsters.Add(newMonster);
+            }
+            else
+            {
+                Debug.LogWarning("Failed to find a valid spawn position after 30 attempts.");
+            }
+        }
     }
 
-    Vector3 GetRandomPositionWithinCircle()
+    Vector3 GetRandomPositionWithinCircle(float radius)
     {
-        Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
+        Vector2 randomCircle = Random.insideUnitCircle * radius;
+        if (portalDefending) //expanding while in defense phase
+        {
+            while (randomCircle.magnitude < defendRadius) 
+            {
+                randomCircle = Random.insideUnitCircle * radius;
+            }
+        }
         return new Vector3(randomCircle.x, 0, randomCircle.y) + transform.position;
     }
 
@@ -96,6 +156,12 @@ public class MonsterSpawner : MonoBehaviour
         defendRadiusSphere.transform.position = position;
         defendRadiusSphere.transform.localScale = Vector3.one * radius * 2f;
         defendRadiusSphere.GetComponent<Renderer>().sharedMaterial = transparentRed;
+        defendRadiusSphere.transform.SetParent(this.transform);
+        Collider sphereCollider = defendRadiusSphere.GetComponent<Collider>();
+        if (sphereCollider != null)
+        {
+            sphereCollider.enabled = false;
+        }
     }
 
 
@@ -111,10 +177,16 @@ public class MonsterSpawner : MonoBehaviour
         defenseActivationRadiusSphere.transform.position = position;
         defenseActivationRadiusSphere.transform.localScale = Vector3.one * radius * 2f;
         defenseActivationRadiusSphere.GetComponent<Renderer>().sharedMaterial = transparentGreen;
+        defenseActivationRadiusSphere.transform.SetParent(this.transform);
+        Collider sphereCollider = defenseActivationRadiusSphere.GetComponent<Collider>();
+        if (sphereCollider != null)
+        {
+            sphereCollider.enabled = false;
+        }
     }
     private void Update()
     {
-        if (defenseProgress < 100)//active until defense sequence is finished
+        if (defenseProgress < defenseMaxTime)//active until defense sequence is finished
         {
             spawnTimer += Time.deltaTime;
 
@@ -144,13 +216,13 @@ public class MonsterSpawner : MonoBehaviour
                 isPlayerInRange = Physics.CheckSphere(transform.position, defendRadius, playerCollisionLayer);
                 if (isPlayerInRange == true && oneSecTimer >= 1f)
                 {
-                    defenseProgress += 1f;
+                    defenseProgress += defenseUpValue;
                     oneSecTimer -= 1f;
                     Debug.Log("PROGRESS = " + defenseProgress);
                 }
                 else if (isPlayerInRange == false && oneSecTimer >= 1f)
                 {
-                    if (defenseProgress > 0f) { defenseProgress -= 0.25f; } else { defenseProgress = 0f; }//align to 0 if value too low
+                    if (defenseProgress > 0f) { defenseProgress -= defenseDownValue; } else { defenseProgress = 0f; }//align to 0 if value too low
                     oneSecTimer -= 1f;
                     Debug.Log("PROGRESS = " + defenseProgress);
                 }
@@ -176,6 +248,7 @@ public class MonsterSpawner : MonoBehaviour
             if (afterTimer <= 0f)
             {
                 teleportationTrigger= true;
+                SceneManager.LoadScene(sceneToLoad);
                 Debug.Log("TELEPORT");
             }
         }

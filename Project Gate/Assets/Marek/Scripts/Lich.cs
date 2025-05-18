@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.Behavior;
 
 public class Lich : OpponentBase
 {
@@ -11,6 +12,7 @@ public class Lich : OpponentBase
     public LayerMask playerCollisionLayer; //for player collision detection
     public GameObject minionPrefab;
     public GameObject projectilePrefab;
+    private BehaviorGraphAgent behAgent;
     private List<GameObject> spawnedMonsters = new List<GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void Start()
@@ -22,9 +24,17 @@ public class Lich : OpponentBase
         attackRange = 3;
 
         agent = GetComponent<NavMeshAgent>();
+        behAgent= GetComponent<BehaviorGraphAgent>();
 
         player = FindObjectOfType<PlayerTest>();
-        
+        if (behAgent != null && player != null)
+        {
+            behAgent.SetVariableValue("Target", player.gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("Could not assign Target: missing agent or player.");
+        }
         for (int i = 0;i< onStartSpawns;i++)
         {
             Spawn();
@@ -86,12 +96,23 @@ public class Lich : OpponentBase
         if (spawnedMonsters.Count < maxSpawns)
         {
             Vector3 spawnPosition = GetRandomPositionWithinCircle();
-            if (IsPositionValid(spawnPosition))
+            int loopCnt = 0;
+            while (!IsPositionValid(spawnPosition) && loopCnt < 30)
+            {
+                spawnPosition = GetRandomPositionWithinCircle();
+                loopCnt++;
+            }
+            if (loopCnt < 30)
             {
                 GameObject newMonster = Instantiate(minionPrefab, spawnPosition, Quaternion.identity);
                 spawnedMonsters.Add(newMonster);
+                Debug.Log("Spawned " + spawnedMonsters.Count + " minions");
             }
-            Debug.Log("Spawned " + spawnedMonsters.Count + " minions" );
+            else
+            {
+                Debug.LogWarning("Failed to find a valid spawn position after 30 attempts.");
+            }
+
         }
         else Debug.Log("Spawn maximmum reached");
     }
