@@ -1,3 +1,5 @@
+// Made by Justyna Piotrowska
+
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -12,6 +14,7 @@ public class TerrainGenerator : MonoBehaviour
     public int seed = 0;
     public GameObject[] trees;
     public GameObject[] rocks;
+    public GameObject portal;
     [SerializeField]
     int min_range, max_range;
     void Start()
@@ -28,6 +31,13 @@ public class TerrainGenerator : MonoBehaviour
         this.terrain.terrainData.SetHeights(0, 0, map.getNoiseMap());
         spawnObject(trees, min_range, max_range, false);
         spawnObject(rocks, min_range/10, max_range/10, true);
+        Vector3 object_position = new();
+        Bounds terrain_bounds = terrain.terrainData.bounds;
+        object_position.x = Random.Range(terrain_bounds.min.x, terrain_bounds.max.x); ;
+        object_position.z = Random.Range(terrain_bounds.min.z, terrain_bounds.max.z); ;
+        object_position.y = terrain.SampleHeight(object_position)+5f;
+        Instantiate(portal, object_position, terrain.transform.rotation);
+        portal.transform.localScale = new Vector3(10f, 10f, 10f);
     }
     void spawnObject(GameObject[] spawn_objects, int min_range, int max_range, bool allow_rotation)
     {
