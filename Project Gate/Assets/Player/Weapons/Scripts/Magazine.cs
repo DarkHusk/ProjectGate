@@ -54,7 +54,7 @@ public class Magazine : MonoBehaviour
             rb.isKinematic = false;
             rb.useGravity = true;
             gun = null;
-            Debug.Log("Detached Mag");
+            bulletCount = magData.GetMaxBulletCount();
         }
     }
 
