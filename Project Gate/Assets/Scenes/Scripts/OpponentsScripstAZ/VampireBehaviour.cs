@@ -35,6 +35,13 @@ public class Vampire : OpponentBase
             animator = GetComponent<Animator>();
         }
     }
+    void Update()
+    {
+        Move();
+        FaceTarget();
+        Attack();
+
+    }
 
     public void Move()
     {

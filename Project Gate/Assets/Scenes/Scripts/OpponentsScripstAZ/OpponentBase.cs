@@ -19,7 +19,7 @@ public class OpponentBase : MonoBehaviour
     protected float _currentHealth;
     protected  GameObject healthBar;
     protected  Transform healthBarTransform;
-    protected  Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
+    public  Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
 
 
     public NavMeshAgent agent;
@@ -29,8 +29,6 @@ public class OpponentBase : MonoBehaviour
     public ParticleSystem deathEffect;
      
     
-
-
     public float currentHealth
     {
         get
@@ -63,7 +61,7 @@ public class OpponentBase : MonoBehaviour
     {
         Move();
         FaceTarget();
-        Attack();
+       
 
     }
 
@@ -75,7 +73,7 @@ public class OpponentBase : MonoBehaviour
        
         if (currentHealth > 0 && Vector3.Distance(transform.position, player.transform.position) >= 1)
         {
-           // agent.SetDestination(player.transform.position);
+            agent.SetDestination(player.transform.position);
             
         }
     }
