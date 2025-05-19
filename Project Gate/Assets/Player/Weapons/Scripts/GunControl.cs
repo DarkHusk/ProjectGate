@@ -23,6 +23,7 @@ public class GunControl : MonoBehaviour
     void Update()
     {
         shotTimer += Time.deltaTime;
+        Fire();
     }
 
     public void StartShooting()
@@ -79,11 +80,11 @@ public class GunControl : MonoBehaviour
     {
         if(isBulletInChamber)
         {
-            if(attachedMag != null || attachedMag.isMagEmpty())
+            if(attachedMag == null || attachedMag.isMagEmpty())
             {
                 isBulletInChamber = false;
             }
-            attachedMag.decrementBulletCout();
+            attachedMag?.decrementBulletCout();
             shotTimer = 0;
             GameObject bullet = Instantiate(bulletTipPrefab, bulletSpawnPosition.position, bulletSpawnPosition.rotation);
             bullet.GetComponent<Rigidbody>().linearVelocity = bullet.transform.forward * bulletSpeed;
