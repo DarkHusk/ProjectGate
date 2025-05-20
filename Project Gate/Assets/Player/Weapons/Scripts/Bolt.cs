@@ -1,3 +1,5 @@
+// Made by Marcin "DarkHusk" Przybylek
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;

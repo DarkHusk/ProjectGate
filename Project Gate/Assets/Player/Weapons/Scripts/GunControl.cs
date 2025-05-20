@@ -1,3 +1,5 @@
+// Made by Marcin "DarkHusk" Przybylek
+
 using UnityEngine;
 
 public class GunControl : MonoBehaviour

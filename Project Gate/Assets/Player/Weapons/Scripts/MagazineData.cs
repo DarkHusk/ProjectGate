@@ -1,3 +1,5 @@
+// Made by Marcin "DarkHusk" Przybylek
+
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MagazineData", menuName = "Scriptable Objects/MagazineData")]

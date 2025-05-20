@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 7633787304743289570}
   - component: {fileID: 3067190302614036155}
   - component: {fileID: 4943354657018046675}
-  - component: {fileID: 6978103741256664578}
-  - component: {fileID: 6551564509361620592}
   - component: {fileID: 9125166802666376860}
+  - component: {fileID: 709820275077955011}
+  - component: {fileID: 5075650970590266450}
+  - component: {fileID: 3906358485693728120}
   m_Layer: 0
   m_Name: AR_A_Bolt
   m_TagString: Untagged
@@ -134,8 +135,29 @@ MonoBehaviour:
         m_CallState: 2
   joint: {fileID: 0}
   bolt: {fileID: 6375863915640031453}
-  grabInteractable: {fileID: 6551564509361620592}
---- !u!54 &6978103741256664578
+  grabInteractable: {fileID: 5075650970590266450}
+--- !u!65 &9125166802666376860
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385054664955497882}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.06000001, y: 0.013750017, z: 0.024801716}
+  m_Center: {x: 0.000000011175871, y: 0.0013749823, z: -0.008849002}
+--- !u!54 &709820275077955011
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,7 +184,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6551564509361620592
+--- !u!114 &5075650970590266450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
   m_Colliders:
-  - {fileID: 9125166802666376860}
+  - {fileID: 3906358485693728120}
   m_InteractionLayers:
     m_Bits: 1
   m_DistanceCalculationMode: 1
@@ -297,7 +319,7 @@ MonoBehaviour:
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
   m_FarAttachMode: 0
---- !u!65 &9125166802666376860
+--- !u!65 &3906358485693728120
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1092,7 +1114,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 4099837273327620856}
+  - {fileID: 746344125950422639}
+  - {fileID: 4867481940374148661}
+  - {fileID: 2085656967527616675}
+  - {fileID: 5677317527797011292}
+  - {fileID: 2982500781803914868}
   m_InteractionLayers:
     m_Bits: 1
   m_DistanceCalculationMode: 1
@@ -1242,10 +1270,10 @@ MonoBehaviour:
   shellPrefab: {fileID: 491119729399020304, guid: d036bac4ba3c8934a9668e3550ea10d9, type: 3}
   bulletSpawnPosition: {fileID: 8140994545024751845}
   shellSpawnPosition: {fileID: 2373381146773172035}
-  shellEjectSpeed: 0.5
+  shellEjectSpeed: 1
   shellTimeOut: 4
   maxShellRotationSpeed: 0.2
-  bulletSpeed: 5.3
+  bulletSpeed: 200
   bulletTimeOut: 8
   shootCooldown: 0.1
   isAutomatic: 1

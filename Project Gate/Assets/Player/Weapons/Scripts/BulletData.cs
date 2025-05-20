@@ -1,3 +1,5 @@
+// Made by Marcin "DarkHusk" Przybylek
+
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BulletData", menuName = "Scriptable Objects/BulletData")]
