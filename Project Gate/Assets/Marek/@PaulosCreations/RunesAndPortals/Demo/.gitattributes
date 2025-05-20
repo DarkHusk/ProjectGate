@@ -1,0 +1,2 @@
+ArenaFloorNorm_4096.tga filter=lfs diff=lfs merge=lfs -text
+ArenaFloorT_4096.tga filter=lfs diff=lfs merge=lfs -text
