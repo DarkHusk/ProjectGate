@@ -9,11 +9,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - WhatIsPlayer
   - Water
   - UI
-  - 
-  - Enemy
+  - WhatIsGround
+  - Monster
   - 
   - 
   - 
