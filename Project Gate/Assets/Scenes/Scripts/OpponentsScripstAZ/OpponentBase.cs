@@ -11,7 +11,7 @@ public class OpponentBase : MonoBehaviour
 
      
     protected int defense;
-    protected int baseAttack;
+    public int baseAttack;
     protected float damageInterval = 1f; // time in sec
     protected float damageTimer = 0f;
     protected float attackRange;
@@ -66,7 +66,7 @@ public class OpponentBase : MonoBehaviour
     }
 
 
-   public virtual void Move() // virtual, bo to base ; change how it works
+   public virtual void Move() // virtual, bc base ; change how it works
     {
         if (player == null) return;
         
