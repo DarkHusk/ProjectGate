@@ -148,7 +148,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         if (transparentRed == null)
         {
-            Debug.LogError("Nie znaleziono materia�u 'transparentRed.mat'");
+            Debug.LogError("Material 'transparentRed.mat' not found");
             return;
         }
 
@@ -169,7 +169,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         if (transparentGreen == null)
         {
-            Debug.LogError("Nie znaleziono materia�u 'transparentGreen.mat'");
+            Debug.LogError("Material 'transparentGreen.mat' not found");
             return;
         }
 

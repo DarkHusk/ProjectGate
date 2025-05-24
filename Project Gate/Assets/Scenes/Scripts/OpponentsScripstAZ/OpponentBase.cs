@@ -9,29 +9,26 @@ using UnityEngine.AI;
 public class OpponentBase : MonoBehaviour
 {
 
-
+     
     protected int defense;
     public int baseAttack;
-    float damageInterval = 1f; // time in sec
-    float damageTimer = 0f;
+    protected float damageInterval = 1f; // time in sec
+    protected float damageTimer = 0f;
     protected float attackRange;
-    int enemyValue;
-    float _currentHealth;
-    private GameObject healthBar;
-    private Transform healthBarTransform;
-    private Vector3 healthBarOffset = new Vector3(0, 3.5f, 0); // Offset above the enemy
-    protected NavMeshAgent agent;
+    protected int enemyValue;
+    protected float _currentHealth;
+    protected  GameObject healthBar;
+    protected  Transform healthBarTransform;
+    public  Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
 
 
+    public NavMeshAgent agent;
     public float maxHealth;
     public PlayerTest player;
-    //public Transform player;
-    public float speed;
+    public float speed ;
     public ParticleSystem deathEffect;
-
-
-
-
+     
+    
     public float currentHealth
     {
         get
@@ -45,30 +42,45 @@ public class OpponentBase : MonoBehaviour
         }
     }
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public virtual void Start() //virtual
+    {
+        currentHealth = 100;
+        maxHealth = currentHealth;
+        defense = 10;
+        baseAttack = 5;
 
-    void Update()
+        agent = GetComponent<NavMeshAgent>();
+
+        player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
+        CreateHealthBar();
+
+    }
+
+    public virtual void Update()
     {
         Move();
         FaceTarget();
+       
 
     }
 
 
-    public virtual void Move() // virtual, bo to base ; change how it works
+   public virtual void Move() // virtual, bc base ; change how it works
     {
         if (player == null) return;
-
-
+        
+       
         if (currentHealth > 0 && Vector3.Distance(transform.position, player.transform.position) >= 1)
         {
             agent.SetDestination(player.transform.position);
-
+            
         }
     }
 
-    public void Die()
+    public void Die() 
     {
-
+        
         if (healthBar != null)
         {
             Destroy(healthBar);
@@ -83,20 +95,7 @@ public class OpponentBase : MonoBehaviour
     }
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public virtual void Start() //virtual
-    {
-        currentHealth = 100;
-        maxHealth = currentHealth;
-        defense = 10;
-        baseAttack = 5;
-
-        agent = GetComponent<NavMeshAgent>();
-
-        player = FindObjectOfType<PlayerTest>();
-        CreateHealthBar();
-
-    }
+   
 
     public virtual void Attack() // virtual
     {
@@ -108,7 +107,6 @@ public class OpponentBase : MonoBehaviour
             {
                 player.TakeDamage(baseAttack);
                 damageTimer = 0f;
-                Debug.Log("atak");
             }
         }
 
@@ -119,9 +117,9 @@ public class OpponentBase : MonoBehaviour
         if (currentHealth > 0)
         {
             currentHealth -= damage;
-
+           
         }
-        if (currentHealth <= 0) Die();
+        if(currentHealth <= 0) Die();
     }
 
 
@@ -129,7 +127,7 @@ public class OpponentBase : MonoBehaviour
     {
         // Create a health bar
         healthBar = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
+    
 
         healthBarTransform = healthBar.transform;
         Destroy(healthBar.GetComponent<Collider>()); // Remove the collider
@@ -143,7 +141,6 @@ public class OpponentBase : MonoBehaviour
         //healthBarRenderer.material = new Material(Shader.Find("Standard"));
 
         UpdateHealthBar();
-        Debug.Log("healthBarcreated");
         //Debug.LogError("atakujowany przeciwnik");
     }
 
@@ -162,15 +159,14 @@ public class OpponentBase : MonoBehaviour
         healthBarRenderer.material.color = Color.Lerp(Color.red, Color.green, healthPercentage);
 
         // Hide health bar when dead
-        if (_currentHealth <= 0)
+        if (_currentHealth<=0)
         {
             healthBar.SetActive(false);
         }
     }
 
-    void FaceTarget()
-    {
-
+    protected void FaceTarget(){
+        
         Vector3 direction = (player.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
