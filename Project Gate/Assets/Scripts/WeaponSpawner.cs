@@ -1,4 +1,5 @@
 // Made by Justyna Piotrowska
+// Modified by Marcin "DarkHusk" Przybylek
 
 using Unity.Collections;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class WeaponSpawner : MonoBehaviour
     public Button previous;
     public Button next;
     public Button spawnWeapon;
+    public Button spawnAmmo;
     public GameObject spawner;
     int index = 0;
 
@@ -20,6 +22,7 @@ public class WeaponSpawner : MonoBehaviour
         previous.onClick.AddListener(previousImage);
         next.onClick.AddListener(nextImage);
         spawnWeapon.onClick.AddListener(spawnWeaponObject);
+        spawnAmmo.onClick.AddListener(spawnAmmoObject);
     }
     void previousImage()
     {
@@ -37,6 +40,11 @@ public class WeaponSpawner : MonoBehaviour
     {
         GameObject weapon = Instantiate(weapons[index].model,spawner.transform.position,spawner.transform.rotation);
     }
+
+    void spawnAmmoObject()
+    {
+        GameObject ammo = Instantiate(weapons[index].ammo, spawner.transform.position, spawner.transform.rotation);
+    }
 }
 
 [System.Serializable]
@@ -44,5 +52,6 @@ public struct Weapon
 {
     public string name;
     public GameObject model;
+    public GameObject ammo;
     public Texture2D image;
 }
