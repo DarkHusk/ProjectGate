@@ -1,3 +1,5 @@
+//Marek
+
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.Behavior;
@@ -12,7 +14,7 @@ public class Minion : OpponentBase
         baseAttack = 5;
         currentHealth = 100;
         maxHealth = currentHealth;
-        attackRange = 3;
+        attackRange = 3.5f;
 
 
         agent = GetComponent<NavMeshAgent>();
@@ -34,21 +36,19 @@ public class Minion : OpponentBase
         Vector3 directionToPlayer = player.transform.position - transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;
 
-        if (distanceToPlayer <= 5f)
+        if (distanceToPlayer <= attackRange)
         {
             float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
 
-            //if (angleToPlayer <= 45f) //90 degrees total
-            //{
+            if (angleToPlayer <= 45f) //90 degrees total
+            {
                 player.TakeDamage(baseAttack);
-                Debug.Log("atak w zasiegu i kacie");
-            //}
+            }
         }
     }
 
     private void OnDrawGizmosSelected()
     {
-        float attackRange = 3f;
         float attackAngle = 90f;
         float gizmoHeight = 2f; //height included
 
