@@ -6940,6 +6940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseAttack: 0
+  enemyValue: 0
   healthBarOffset: {x: 0, y: 2, z: 0}
   agent: {fileID: 0}
   maxHealth: 50
@@ -11102,6 +11103,10 @@ PrefabInstance:
     - target: {fileID: 1879823577261200067, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879823577261200067, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
+      propertyPath: enemyPointLimit
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 1879823577261200067, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
       propertyPath: monsterPrefabs.Array.size

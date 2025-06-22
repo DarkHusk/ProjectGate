@@ -21,6 +21,7 @@ public class ShadowPanthershark : OpponentBase
         currentHealth = 300;
         maxHealth = currentHealth;
         attackRange = 3;
+        enemyValue= 3;
 
         objectCollider = GetComponent<Collider>();
 

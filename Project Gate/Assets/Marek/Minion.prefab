@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseAttack: 5
+  enemyValue: 1
   healthBarOffset: {x: 0, y: 2, z: 0}
   agent: {fileID: 0}
   maxHealth: 100

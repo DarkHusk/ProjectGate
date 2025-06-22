@@ -15,6 +15,7 @@ public class Minion : OpponentBase
         currentHealth = 100;
         maxHealth = currentHealth;
         attackRange = 3.5f;
+        enemyValue= 1;
 
 
         agent = GetComponent<NavMeshAgent>();
