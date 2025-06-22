@@ -1,3 +1,5 @@
+//Marek
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -22,6 +24,7 @@ public class Lich : OpponentBase
         currentHealth = 100;
         maxHealth = currentHealth;
         attackRange = 3;
+        enemyValue = 5;
 
         agent = GetComponent<NavMeshAgent>();
         behAgent= GetComponent<BehaviorGraphAgent>();
