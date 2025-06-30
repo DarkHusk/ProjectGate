@@ -15,14 +15,17 @@ public class FlyingDemon : OpponentBase
     float diveTimer = 0f;
     Vector3 modelOffset = Vector3.zero;
 
+    public Animator animator;
+
     public override void Start()
     {
         base.Start();
-
+        player = FindObjectOfType<PlayerTest>();
         if (modelTransform == null)
         {
             modelTransform = transform;
         }
+        enemyValue = 4;
 
         agent.enabled = true;
         agent.stoppingDistance = 1f;
@@ -62,7 +65,8 @@ public class FlyingDemon : OpponentBase
 
     IEnumerator DiveAttack()
     {
-        
+        animator.SetTrigger("Attack");
+
         isDiving = true;
         agent.enabled = false;
 
@@ -101,7 +105,8 @@ public class FlyingDemon : OpponentBase
         }
 
         isDiving = false;
-        agent.enabled = true; 
+        agent.enabled = true;
+        animator.ResetTrigger("Attack");
     }
 
     void UpdateModelPosition()

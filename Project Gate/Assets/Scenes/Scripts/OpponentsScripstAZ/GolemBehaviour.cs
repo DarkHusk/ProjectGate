@@ -25,7 +25,9 @@ public class Golem : OpponentBase
 
        // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
         CreateHealthBar();
-        
+
+        player = FindObjectOfType<PlayerTest>();
+
         speed = 1.5f; 
         if (agent != null)
         {
@@ -46,7 +48,14 @@ public class Golem : OpponentBase
 
     }
 
-    public  void Move()
+    void FixedUpdate()
+    { 
+    if (!isAttacking) {
+            animator.ResetTrigger("Attack");
+        }
+    }
+
+    public void Move()
     {
         if (player == null || isAttacking) return;
 

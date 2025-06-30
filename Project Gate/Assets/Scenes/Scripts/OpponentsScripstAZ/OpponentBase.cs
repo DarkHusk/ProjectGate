@@ -15,7 +15,7 @@ public class OpponentBase : MonoBehaviour
     protected float damageInterval = 1f; // time in sec
     protected float damageTimer = 0f;
     protected float attackRange;
-    protected int enemyValue;
+    public int enemyValue = 1;
     protected float _currentHealth;
     protected  GameObject healthBar;
     protected  Transform healthBarTransform;
