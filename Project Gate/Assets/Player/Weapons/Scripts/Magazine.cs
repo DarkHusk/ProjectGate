@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class Magazine : MonoBehaviour
 {
     [SerializeField] MagazineData magData;
+    [SerializeField]
+    public int prefabID;
 
     GameObject receiver = null;
     GunControl gun;
@@ -35,16 +37,25 @@ public class Magazine : MonoBehaviour
     }
     public void Attach()
     {
-        if(receiver != null)
+        rb.isKinematic = false;
+        rb.useGravity = true;
+        if (receiver != null)
         {
             transform.SetParent(receiver.transform);
             transform.localPosition = magData.GetLocalPositionOffset();
             transform.localRotation = Quaternion.identity;
             rb.isKinematic = true;
             rb.useGravity = false;
-            gun = receiver.GetComponentInParent<GunControl>();
+            gun = receiver.GetComponent<GunControl>();
             gun.AttachMagazine(this);
+            gameObject.layer = LayerMask.NameToLayer("Gun");
         }
+    }
+
+    public void Attach(GameObject receiver)
+    {
+        this.receiver = receiver;
+        Attach();
     }
 
     public void Detach()
@@ -57,6 +68,7 @@ public class Magazine : MonoBehaviour
             rb.useGravity = true;
             gun = null;
             bulletCount = magData.GetMaxBulletCount();
+            gameObject.layer = 0;
         }
     }
 

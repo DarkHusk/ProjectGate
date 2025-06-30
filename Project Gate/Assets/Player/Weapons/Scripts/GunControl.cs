@@ -1,6 +1,7 @@
 // Made by Marcin "DarkHusk" Przybylek
 
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class GunControl : MonoBehaviour
 {
@@ -16,16 +17,70 @@ public class GunControl : MonoBehaviour
     [SerializeField] float bulletTimeOut = 8f;
     [SerializeField] float shootCooldown = 0.1f;
     [SerializeField] bool isAutomatic = true;
+    
+    [SerializeField]
+    public int prefabID;
 
     Magazine attachedMag = null;
     bool isShooting = false;
     float shotTimer = 0;
     bool isBulletInChamber = false;
+    GameObject holster = null;
+    Rigidbody weaponRB;
+    XRGrabInteractable grab;
+    ParticleSystem muzzleFlash;
+    void Start()
+    {
+        weaponRB = gameObject.GetComponent<Rigidbody>();
+        grab = gameObject.GetComponent<XRGrabInteractable>();
+        muzzleFlash = gameObject.GetComponentInChildren<ParticleSystem>();
+    }
 
     void Update()
     {
         shotTimer += Time.deltaTime;
         Fire();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.isTrigger && other.gameObject.CompareTag("Holster"))
+        {
+            holster = other.gameObject;
+            grab.throwOnDetach = false;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.isTrigger && other.gameObject.CompareTag("Holster"))
+        {
+            holster = null;
+            grab.throwOnDetach = true;
+        }
+    }
+
+    public void TryHolster()
+    {
+        weaponRB.isKinematic = false;
+        weaponRB.useGravity = true;
+        if (holster != null)
+        {
+            transform.SetParent(holster.transform);
+            weaponRB.isKinematic = true;
+            weaponRB.useGravity = false;
+        }
+    }
+
+    public void Unholster()
+    {
+        if (holster != null)
+        {
+            transform.SetParent(null);
+            weaponRB.isKinematic = false;
+            weaponRB.useGravity = true;
+            holster = null;
+        }
     }
 
     public void StartShooting()
@@ -92,6 +147,7 @@ public class GunControl : MonoBehaviour
             bullet.GetComponent<Rigidbody>().linearVelocity = bullet.transform.forward * bulletSpeed;
             Destroy(bullet, bulletTimeOut);
             Eject(shellPrefab);
+            muzzleFlash.Play();
             return true;
         }
 

@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 8820765257659486172}
   m_Layer: 0
   m_Name: AR_A_Mag
-  m_TagString: Untagged
+  m_TagString: Magazine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magData: {fileID: 11400000, guid: 99b7c4d1ead6daa4196c64a2d6dad9bb, type: 2}
+  prefabID: 1
 --- !u!54 &6875210142006273894
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "SceneTransitionBase", menuName = "Scriptable Objects/SceneTransitionBase")]
 public class SceneTransitionBase : ScriptableObject
@@ -10,6 +11,7 @@ public class SceneTransitionBase : ScriptableObject
 
     public void ChangeScene()
     {
+        SceneManager.GetActiveScene().GetRootGameObjects().FirstOrDefault(o => o.GetComponent<SavePlayerState>())?.GetComponent<SavePlayerState>().SaveData();
         SceneManager.LoadScene(sceneName);
     }
 }

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
+  - Magazine
+  - Weapon
+  - Holster
   layers:
   - Default
   - TransparentFX
