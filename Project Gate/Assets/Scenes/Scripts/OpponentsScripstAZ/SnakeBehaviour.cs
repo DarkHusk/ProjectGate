@@ -25,6 +25,8 @@ public class Snake : OpponentBase
         // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
         CreateHealthBar();
 
+        player = FindObjectOfType<PlayerTest>();
+
         speed = 1.5f;
         if (agent != null)
         {
@@ -90,6 +92,7 @@ public class Snake : OpponentBase
 
         isAttacking = false;
         agent.isStopped = false;
+        animator.ResetTrigger("Attack");
     }
 
     public void PoisonPlayer()

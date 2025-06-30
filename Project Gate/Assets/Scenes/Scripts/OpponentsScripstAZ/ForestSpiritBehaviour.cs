@@ -15,7 +15,7 @@ public class ForestSpiritBehaviour : OpponentBase
 
 
     public float updateRate = 0.5f; // co ile sekund aktualizować cel
-    public float followDistance = 4f;
+    public float followDistance = 7f;
     private float nextUpdateTime = 0f;
 
     public  void Start()
@@ -24,7 +24,8 @@ public class ForestSpiritBehaviour : OpponentBase
         maxHealth = currentHealth;
         defense = 10;
         baseAttack = 15;
-
+        enemyValue = 3;
+        player = FindObjectOfType<PlayerTest>();
         //agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
         // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
@@ -59,13 +60,27 @@ public class ForestSpiritBehaviour : OpponentBase
         }
         Move();
     }
-   
-    public  void Move() 
+
+    void FixedUpdate()
     {
-        if (player == null || isAttacking ) return;
+        if (!isAttacking)
+        {
+            animator.ResetTrigger("Attack");
+
+        }
+        animator.ResetTrigger("heal");
+        if (Vector3.Distance(transform.position, player.transform.position) >= 7f)
+        {
+            animator.ResetTrigger("stop");
+        }
+    }
+
+    public void Move()
+    {
+        if (player == null || isAttacking) return;
 
         float distance = Vector3.Distance(transform.position, player.transform.position);
-       // Debug.Log($"Distance: {distance}");
+        // Debug.Log($"Distance: {distance}");
         if (currentHealth <= 0)
         {
             agent.isStopped = true;
@@ -73,16 +88,17 @@ public class ForestSpiritBehaviour : OpponentBase
             return;
         }
 
-        if (distance <= 4.0f)
+        if (distance <= 7.0f)
         {
             GetComponent<Rigidbody>().isKinematic = false;
             //Debug.Log("zatrzymaj sie");
             agent.isStopped = true;
             agent.ResetPath();
+            animator.SetTrigger("stop");
         }
-        else 
+        else
         {
-      
+
             if (Time.time >= nextUpdateTime)
             {
                 nextUpdateTime = Time.time + updateRate;
@@ -92,7 +108,7 @@ public class ForestSpiritBehaviour : OpponentBase
 
                 Vector3 direction = (transform.position - player.transform.position).normalized;
                 Vector3 targetPosition = player.transform.position + direction * followDistance;
-               // Debug.Log("idziemy");
+                // Debug.Log("idziemy");
                 agent.SetDestination(player.transform.position);
             }
 
@@ -140,10 +156,13 @@ public class ForestSpiritBehaviour : OpponentBase
 
     private void HealAllies()
     {
+       
         healTimer += Time.deltaTime;
         if (healTimer < healCooldown) return;
 
         healTimer = 0f;
+
+        animator.SetTrigger("heal");
 
         Collider[] allies = Physics.OverlapSphere(transform.position, healRange, allyLayer);
 
@@ -179,6 +198,7 @@ public class ForestSpiritBehaviour : OpponentBase
         if (!hasAllies)
         {
             isAggressive = true;
+            
         }
     }
 

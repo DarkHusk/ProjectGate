@@ -18,7 +18,8 @@ public class Vampire : OpponentBase
         defense = 10;
         baseAttack = 15;
         noHealAttack = 0;
-
+        enemyValue = 3;
+        player = FindObjectOfType<PlayerTest>();
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
        // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
@@ -113,5 +114,6 @@ public class Vampire : OpponentBase
 
         isAttacking = false;
         agent.isStopped = false;
+        animator.ResetTrigger("Attack");
     }
 }

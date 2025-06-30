@@ -23,10 +23,11 @@ public class Werewolf : OpponentBase
         maxHealth = currentHealth;
         defense = 10;
         baseAttack = 15;
-
+        enemyValue = 3;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        player = FindObjectOfType<PlayerTest>();
 
-       // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
+        // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
         CreateHealthBar();
 
         speed = 4f;
@@ -140,6 +141,7 @@ public class Werewolf : OpponentBase
 
         isAttacking = false;
         agent.isStopped = false;
+        animator.ResetTrigger("Attack");
     }
 
 }
