@@ -11110,12 +11110,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1879823577261200067, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
       propertyPath: monsterPrefabs.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1879823577261200067, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
       propertyPath: 'monsterPrefabs.Array.data[2]'
       value: 
-      objectReference: {fileID: 330387842276283010, guid: 68da1ad7f5e244f44896adf60f2e1a71, type: 3}
+      objectReference: {fileID: 1832176675005630640, guid: b8a2e70525c2cf64885dc1f4d9836413, type: 3}
+    - target: {fileID: 1879823577261200067, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
+      propertyPath: 'monsterPrefabs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 3882376606719067730, guid: 1eed5c74ce251bb468d1f774b3d4b52b, type: 3}
+    - target: {fileID: 1879823577261200067, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
+      propertyPath: 'monsterPrefabs.Array.data[4]'
+      value: 
+      objectReference: {fileID: 3313321603863153675, guid: 00f81117212dc354f9f5b093ce205dab, type: 3}
     - target: {fileID: 3567553118301251340, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
       propertyPath: m_Name
       value: Portal
