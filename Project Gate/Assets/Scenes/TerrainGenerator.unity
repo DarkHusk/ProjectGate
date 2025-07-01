@@ -699,6 +699,7 @@ MonoBehaviour:
   terrain: {fileID: 1496308777}
   settings:
   - {fileID: 11400000, guid: bd655ba9c89aca3418bce270021c03df, type: 2}
+  - {fileID: 11400000, guid: 6f6b83d79880d924f9f07c36f0c63d65, type: 2}
   scale: 1024
   octaves: 30
   persistance: 0.109
@@ -721,6 +722,7 @@ MonoBehaviour:
   player: {fileID: 1283913607}
   min_range: 800
   max_range: 2000
+  smoothIterations: 5
 --- !u!114 &1496308780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -748,8 +750,8 @@ MonoBehaviour:
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.08
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 0240d16deb647524daa358d1c474b02a, type: 2}
   m_BuildHeightMesh: 0

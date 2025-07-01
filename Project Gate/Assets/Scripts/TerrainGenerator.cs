@@ -45,6 +45,8 @@ public class TerrainGenerator : MonoBehaviour
         free_cells = new();
 
         generateTerrain();
+        smoothTerrain();
+        gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     [ContextMenu("generate")]
@@ -90,7 +92,6 @@ public class TerrainGenerator : MonoBehaviour
         spawnObject(trees, min_range, max_range, false);
         spawnObject(rocks, min_range / 10, max_range / 10, true);
 
-        gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     //Spawning objects, also preventing them to overlap, by using a grid system
@@ -130,8 +131,48 @@ public class TerrainGenerator : MonoBehaviour
             (list[i], list[j]) = (list[j], list[i]);
         }
     }
-    void Update()
+    public int smooth_iterations = 5;
+
+    void smoothTerrain()
     {
-        
+        TerrainData terrain_data = terrain.terrainData;
+        int width = terrain_data.heightmapResolution;
+        int height = terrain_data.heightmapResolution;
+
+        float[,] heights = terrain_data.GetHeights(0, 0, width, height);
+
+        for (int iteration = 0; iteration < smooth_iterations; iteration++)
+        {
+            heights = smoothHeights(heights, width, height);
+        }
+
+        terrain_data.SetHeights(0, 0, heights);
+    }
+
+    float[,] smoothHeights(float[,] heights, int width, int height)
+    {
+        float[,] smoothed = new float[width, height];
+
+        for (int x = 1; x < width - 1; x++)
+        {
+            for (int y = 1; y < height - 1; y++)
+            {
+                float total = 0f;
+                int count = 0;
+
+                for (int nx = x - 1; nx <= x + 1; nx++)
+                {
+                    for (int ny = y - 1; ny <= y + 1; ny++)
+                    {
+                        total += heights[nx, ny];
+                        count++;
+                    }
+                }
+
+                smoothed[x, y] = total / count;
+            }
+        }
+
+        return smoothed;
     }
 }

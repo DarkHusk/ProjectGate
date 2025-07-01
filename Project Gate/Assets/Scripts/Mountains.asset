@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4a284f55adff74cb5047d9f09b23c9, type: 3}
   m_Name: Mountains
   m_EditorClassIdentifier: 
-  scale: 512
-  octaves: 30
-  persistance: 0.495
-  lacunarity: 1.57
+  scale: 600
+  octaves: 16
+  persistance: 0.45
+  lacunarity: 1.03
