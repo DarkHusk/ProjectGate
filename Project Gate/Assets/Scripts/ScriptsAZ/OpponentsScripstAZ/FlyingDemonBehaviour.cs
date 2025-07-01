@@ -19,6 +19,7 @@ public class FlyingDemon : OpponentBase
 
     public override void Start()
     {
+        spawnTime = Time.time;
         base.Start();
         player = FindObjectOfType<PlayerTest>();
         if (modelTransform == null)
@@ -30,22 +31,33 @@ public class FlyingDemon : OpponentBase
         agent.enabled = true;
         agent.stoppingDistance = 1f;
         modelOffset = Vector3.up * flyHeight;
+        speed = 5f;
+        if (agent != null)
+        {
+            agent.speed = speed;
+        }
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+        StartCoroutine(SnapToNavMesh());
     }
 
     public override void Update()
     {
-        base.Update(); 
+        base.Update();
 
         if (player == null) return;
 
         diveTimer += Time.deltaTime;
-        UpdateModelPosition(); 
+        UpdateModelPosition();
 
         //if (!isDiving)
         {
             Move();
 
-            
+
             if (Vector3.Distance(transform.position, player.transform.position) <= attackTriggerDistance
                 && diveTimer >= diveCooldown && !isDiving)
             {
@@ -53,15 +65,36 @@ public class FlyingDemon : OpponentBase
                 diveTimer = 0f;
             }
         }
+        if (!agent.isOnNavMesh && Time.time - spawnTime >= 5f)
+        {
+            _currentHealth = 0;
+        }
+
+    }
+    public void Move()
+    {
+
+        if (player == null || isDiving) return;
+
+        if (currentHealth > 0 && Vector3.Distance(transform.position, player.transform.position) >= 1.5)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(player.transform.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
     }
 
-    public override void Move()
+   /* public override void Move()
     {
         if (player == null || isDiving) return;
         Vector3 targetPos = player.transform.position;
         targetPos.y = transform.position.y;
         agent.SetDestination(targetPos);
-    }
+    }*/
 
     IEnumerator DiveAttack()
     {
@@ -72,7 +105,7 @@ public class FlyingDemon : OpponentBase
 
         Vector3 diveTarget = player.transform.position;// + Vector3.up * 1f;
 
-        // Pikowanie w dó³
+        // Pikowanie w dï¿½
         while (Vector3.Distance(modelTransform.position, diveTarget) > 0.5f)
         {
             modelTransform.position = Vector3.MoveTowards(
@@ -83,7 +116,7 @@ public class FlyingDemon : OpponentBase
             yield return null;
         }
 
-        // Atak, jeœli gracz wci¹¿ w zasiêgu
+        // Atak, jeï¿½li gracz wciï¿½ï¿½ w zasiï¿½gu
         if (Vector3.Distance(modelTransform.position, player.transform.position) <= diveAttackRange)
         {
             player.TakeDamage(baseAttack * 2);
@@ -92,7 +125,7 @@ public class FlyingDemon : OpponentBase
 
         yield return new WaitForSeconds(0.5f);
 
-        // Powrót na wysokoœæ
+        // Powrï¿½t na wysokoï¿½ï¿½
         Vector3 returnPos = transform.position + modelOffset;
         while (Vector3.Distance(modelTransform.position, returnPos) > 0.5f)
         {

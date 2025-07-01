@@ -16,6 +16,7 @@ public class Golem : OpponentBase
 
     public void Start()
     {
+        spawnTime = Time.time;
         currentHealth = 300;
         maxHealth = currentHealth;
         defense = 10;
@@ -28,16 +29,17 @@ public class Golem : OpponentBase
 
         player = FindObjectOfType<PlayerTest>();
 
-        speed = 1.5f; 
+        speed = 4f; 
         if (agent != null)
         {
-            agent.speed = speed;
+           agent.speed = speed;
         }
 
         if (animator == null)
         {
             animator = GetComponent<Animator>();
         }
+        StartCoroutine(SnapToNavMesh());
     }
 
     void Update()
@@ -45,7 +47,10 @@ public class Golem : OpponentBase
         Move();
         FaceTarget();
         Attack();
-
+        if (!agent.isOnNavMesh && Time.time - spawnTime >= 5f)
+        {
+            _currentHealth = 0;
+        }
     }
 
     void FixedUpdate()
@@ -78,7 +83,7 @@ public class Golem : OpponentBase
 
         
         isAttacking = true;
-        agent.isStopped = true;
+       // agent.isStopped = true;
 
         
         animator.SetTrigger("Attack"); 
@@ -98,6 +103,6 @@ public class Golem : OpponentBase
         }
 
         isAttacking = false;
-        agent.isStopped = false;
+       // agent.isStopped = false;
     }
 }

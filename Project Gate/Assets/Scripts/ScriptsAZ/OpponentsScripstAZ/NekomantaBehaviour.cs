@@ -28,6 +28,7 @@ public class Nekomancer : OpponentBase
 
     public override void Start()
     {
+        spawnTime = Time.time;
         base.Start();
         enemyValue = 5;
         defense = 3;
@@ -36,6 +37,24 @@ public class Nekomancer : OpponentBase
         maxHealth = currentHealth;
         player = FindObjectOfType<PlayerTest>();
         CreateHealthBar();
+
+        speed = 5f;
+        if (agent != null)
+        {
+            agent.speed = speed;
+        }
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+
+        if (agent == null)
+        {
+            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        }
+        StartCoroutine(SnapToNavMesh());
     }
 
     public override void Update()
@@ -53,8 +72,14 @@ public class Nekomancer : OpponentBase
         if (Time.deltaTime % summonCooldown == 0)
         {
             animator.ResetTrigger("Summon");
-            if(Time.time >= nextUpdateTime && agent.isActiveAndEnabled && Vector3.Distance(transform.position, player.transform.position) >= followDistance)
-            animator.ResetTrigger("Stopped");
+            if (Time.time >= nextUpdateTime && agent.isActiveAndEnabled && Vector3.Distance(transform.position, player.transform.position) >= followDistance)
+                animator.ResetTrigger("Stopped");
+        }
+
+        StartCoroutine(SnapToNavMesh());
+        if (!agent.isOnNavMesh && Time.time - spawnTime >= 5f)
+        {
+            _currentHealth = 0;
         }
     }
 

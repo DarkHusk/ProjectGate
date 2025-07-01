@@ -20,6 +20,7 @@ public class ForestSpiritBehaviour : OpponentBase
 
     public  void Start()
     {
+        spawnTime = Time.time;
         currentHealth = 10;
         maxHealth = currentHealth;
         defense = 10;
@@ -31,7 +32,7 @@ public class ForestSpiritBehaviour : OpponentBase
         // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
         CreateHealthBar();
 
-        speed = 1.5f;
+        speed = 3f;
         if (agent != null)
         {
             agent.speed = speed;
@@ -41,11 +42,12 @@ public class ForestSpiritBehaviour : OpponentBase
         {
             animator = GetComponent<Animator>();
         }
+        StartCoroutine(SnapToNavMesh());
     }
 
     void Update()
     {
-       
+
         FaceTarget();
 
         if (!isAggressive)
@@ -55,10 +57,15 @@ public class ForestSpiritBehaviour : OpponentBase
         }
         else
         {
-            
+
             Attack();
         }
         Move();
+
+        if (!agent.isOnNavMesh && Time.time - spawnTime >= 5f)
+        {
+            _currentHealth = 0;
+        }
     }
 
     void FixedUpdate()
@@ -77,42 +84,18 @@ public class ForestSpiritBehaviour : OpponentBase
 
     public void Move()
     {
+
         if (player == null || isAttacking) return;
 
-        float distance = Vector3.Distance(transform.position, player.transform.position);
-        // Debug.Log($"Distance: {distance}");
-        if (currentHealth <= 0)
+        if (currentHealth > 0 && Vector3.Distance(transform.position, player.transform.position) >= followDistance)
         {
-            agent.isStopped = true;
-            agent.ResetPath();
-            return;
-        }
-
-        if (distance <= 7.0f)
-        {
-            GetComponent<Rigidbody>().isKinematic = false;
-            //Debug.Log("zatrzymaj sie");
-            agent.isStopped = true;
-            agent.ResetPath();
-            animator.SetTrigger("stop");
+            agent.isStopped = false;
+            agent.SetDestination(player.transform.position);
         }
         else
         {
-
-            if (Time.time >= nextUpdateTime)
-            {
-                nextUpdateTime = Time.time + updateRate;
-
-                GetComponent<Rigidbody>().isKinematic = true;
-                agent.isStopped = false;
-
-                Vector3 direction = (transform.position - player.transform.position).normalized;
-                Vector3 targetPosition = player.transform.position + direction * followDistance;
-                // Debug.Log("idziemy");
-                agent.SetDestination(player.transform.position);
-            }
-
-
+            agent.isStopped = true;
+            agent.ResetPath();
         }
     }
 

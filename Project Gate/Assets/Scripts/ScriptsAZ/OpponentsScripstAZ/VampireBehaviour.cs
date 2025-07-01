@@ -13,6 +13,7 @@ public class Vampire : OpponentBase
 
     public void Start()
     {
+        spawnTime = Time.time;
         currentHealth = 300;
         maxHealth = currentHealth;
         defense = 10;
@@ -25,7 +26,7 @@ public class Vampire : OpponentBase
        // player = FindObjectOfType<PlayerTest>(); // ONLY IF THERE IS ONE PLAYER ; change it maybe?
         CreateHealthBar();
 
-        speed = 1.5f;
+        speed = 4f;
         if (agent != null)
         {
             agent.speed = speed;
@@ -35,6 +36,7 @@ public class Vampire : OpponentBase
         {
             animator = GetComponent<Animator>();
         }
+        StartCoroutine(SnapToNavMesh());
     }
     void Update()
     {
@@ -42,6 +44,10 @@ public class Vampire : OpponentBase
         FaceTarget();
         Attack();
 
+        if (!agent.isOnNavMesh && Time.time - spawnTime >= 5f)
+        {
+            _currentHealth = 0;
+        }
     }
 
     public void Move()

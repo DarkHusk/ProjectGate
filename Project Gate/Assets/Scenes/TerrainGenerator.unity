@@ -707,11 +707,11 @@ MonoBehaviour:
   - {fileID: 100000, guid: 9166f300e2c3cac45814e67aacdb8c57, type: 3}
   - {fileID: 100000, guid: 93c9c0ef31ea07a41b002dd07d9b8918, type: 3}
   - {fileID: 100000, guid: cc016795fa810184e86c62f67064d368, type: 3}
-  portal: {fileID: 1630944186039448, guid: 1a21d582b4a6801469317c1c75eff087, type: 3}
+  portal: {fileID: 3567553118301251340, guid: 7a1c342c4423d8e4faccf64ebced950e, type: 3}
   player: {fileID: 1283913607}
   min_range: 800
   max_range: 2000
-  smoothIterations: 5
+  smooth_iterations: 5
 --- !u!114 &1496308780
 MonoBehaviour:
   m_ObjectHideFlags: 0

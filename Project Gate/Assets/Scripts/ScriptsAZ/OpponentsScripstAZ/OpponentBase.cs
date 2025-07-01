@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using System.Collections;
 
 public class OpponentBase : MonoBehaviour
 {
 
-     
+
     protected int defense;
     public int baseAttack;
     protected float damageInterval = 1f; // time in sec
@@ -17,18 +18,23 @@ public class OpponentBase : MonoBehaviour
     protected float attackRange;
     public int enemyValue = 1;
     protected float _currentHealth;
-    protected  GameObject healthBar;
-    protected  Transform healthBarTransform;
-    public  Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
+    protected GameObject healthBar;
+    protected Transform healthBarTransform;
+    public Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset above the enemy
 
 
     public NavMeshAgent agent;
     public float maxHealth;
     public PlayerTest player;
-    public float speed ;
+    public float speed;
     public ParticleSystem deathEffect;
-     
-    
+    protected float spawnTime;
+
+
+
+    protected int isPlacedOnMap = 0;
+
+
     public float currentHealth
     {
         get
@@ -61,26 +67,26 @@ public class OpponentBase : MonoBehaviour
     {
         Move();
         FaceTarget();
-       
+
 
     }
 
 
-   public virtual void Move() // virtual, bc base ; change how it works
+    public virtual void Move() // virtual, bc base ; change how it works
     {
         if (player == null) return;
-        
-       
+
+
         if (currentHealth > 0 && Vector3.Distance(transform.position, player.transform.position) >= 1)
         {
             agent.SetDestination(player.transform.position);
-            
+
         }
     }
 
-    public void Die() 
+    public void Die()
     {
-        
+
         if (healthBar != null)
         {
             Destroy(healthBar);
@@ -95,7 +101,7 @@ public class OpponentBase : MonoBehaviour
     }
 
 
-   
+
 
     public virtual void Attack() // virtual
     {
@@ -117,9 +123,9 @@ public class OpponentBase : MonoBehaviour
         if (currentHealth > 0)
         {
             currentHealth -= damage;
-           
+
         }
-        if(currentHealth <= 0) Die();
+        if (currentHealth <= 0) Die();
     }
 
 
@@ -127,7 +133,7 @@ public class OpponentBase : MonoBehaviour
     {
         // Create a health bar
         healthBar = GameObject.CreatePrimitive(PrimitiveType.Cube);
-    
+
 
         healthBarTransform = healthBar.transform;
         Destroy(healthBar.GetComponent<Collider>()); // Remove the collider
@@ -159,17 +165,52 @@ public class OpponentBase : MonoBehaviour
         healthBarRenderer.material.color = Color.Lerp(Color.red, Color.green, healthPercentage);
 
         // Hide health bar when dead
-        if (_currentHealth<=0)
+        if (_currentHealth <= 0)
         {
             healthBar.SetActive(false);
         }
     }
 
-    protected void FaceTarget(){
-        
+    protected void FaceTarget()
+    {
+
         Vector3 direction = (player.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
+
+
+
+    public IEnumerator SnapToNavMesh()
+    {
+        int attempts = 0;
+        int maxAttempts = 5;
+
+        while (attempts < maxAttempts && !agent.isOnNavMesh)
+        {
+            attempts++;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position, out hit, 5f, NavMesh.AllAreas))
+            {
+                transform.position = hit.position;
+                Debug.Log($"[NavMesh] Ustawiono poprawnie w próbie {attempts}.");
+                yield break; // zakoñcz coroutine, uda³o siê
+            }
+            else
+            {
+                Debug.LogWarning($"[NavMesh] Próba {attempts}: nie znaleziono NavMesha.");
+            }
+
+            yield return new WaitForSeconds(0.2f); // poczekaj chwilê i próbuj znowu
+        }
+
+        if (!agent.isOnNavMesh)
+        {
+            Debug.LogError("[NavMesh] Nie uda³o siê ustawiæ agenta po 5 próbach – niszczê obiekt.");
+            _currentHealth = 0;
+        }
+    }
+
 
 }

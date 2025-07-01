@@ -15,6 +15,7 @@ public class Snake : OpponentBase
 
     public void Start()
     {
+        spawnTime = Time.time;
         currentHealth = 300;
         maxHealth = currentHealth;
         defense = 10;
@@ -27,7 +28,7 @@ public class Snake : OpponentBase
 
         player = FindObjectOfType<PlayerTest>();
 
-        speed = 1.5f;
+        speed = 5f;
         if (agent != null)
         {
             agent.speed = speed;
@@ -37,17 +38,29 @@ public class Snake : OpponentBase
         {
             animator = GetComponent<Animator>();
         }
+
+
+        if (agent == null)
+        {
+            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        }
+        StartCoroutine(SnapToNavMesh());
     }
 
-      void Update()
+    void Update()
     {
         Move();
         FaceTarget();
         Attack();
 
+        if (!agent.isOnNavMesh && Time.time - spawnTime >= 5f)
+        {
+            _currentHealth = 0;
+        }
+
     }
 
-    public  void Move()
+    public void Move()
     {
         if (player == null || isAttacking) return;
 

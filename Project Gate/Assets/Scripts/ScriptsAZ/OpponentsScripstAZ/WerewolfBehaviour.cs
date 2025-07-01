@@ -19,6 +19,7 @@ public class Werewolf : OpponentBase
 
     public override void Start()
     {
+        spawnTime = Time.time;
         currentHealth = 300;
         maxHealth = currentHealth;
         defense = 10;
@@ -40,13 +41,18 @@ public class Werewolf : OpponentBase
         {
             animator = GetComponent<Animator>();
         }
+        StartCoroutine(SnapToNavMesh());
     }
 
-     void Update()
+    void Update()
     {
         Move();
         FaceTarget();
 
+        if (!agent.isOnNavMesh && Time.time - spawnTime >= 5f)
+        {
+            _currentHealth = 0;
+        }
     }
 
     public void Move()

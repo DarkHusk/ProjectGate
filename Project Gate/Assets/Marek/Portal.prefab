@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.42744112, z: -0, w: 0.90404314}
   m_LocalPosition: {x: -28.2, y: 1.56, z: -33.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3306957829876234947}
@@ -59,7 +59,7 @@ MonoBehaviour:
   monsterPrefabs:
   - {fileID: 424503442982941870, guid: 9aefd3afe640af44995c0f693e548624, type: 3}
   - {fileID: 5220795277494908047, guid: a98d5953c0110464ebcf2305c7ea8678, type: 3}
-  - {fileID: 3313321603863153675, guid: 00f81117212dc354f9f5b093ce205dab, type: 3}
+  - {fileID: 2128509591677652951, guid: 3d0991b6342db16448d0abba9dc0b8fa, type: 3}
   - {fileID: 2938723609744039518, guid: e9416350b354e824585bb99faa8f07bb, type: 3}
   - {fileID: 8677941094387896244, guid: c26c290c85ae0ad44bc7c7379ad90cbe, type: 3}
   - {fileID: 3882376606719067730, guid: 1eed5c74ce251bb468d1f774b3d4b52b, type: 3}
