@@ -14962,6 +14962,12 @@ MonoBehaviour:
   monsterPrefabs:
   - {fileID: 5220795277494908047, guid: a98d5953c0110464ebcf2305c7ea8678, type: 3}
   - {fileID: 424503442982941870, guid: 9aefd3afe640af44995c0f693e548624, type: 3}
+  - {fileID: 2938723609744039518, guid: e9416350b354e824585bb99faa8f07bb, type: 3}
+  - {fileID: 8677941094387896244, guid: c26c290c85ae0ad44bc7c7379ad90cbe, type: 3}
+  - {fileID: 2128509591677652951, guid: 3d0991b6342db16448d0abba9dc0b8fa, type: 3}
+  - {fileID: 3882376606719067730, guid: 1eed5c74ce251bb468d1f774b3d4b52b, type: 3}
+  - {fileID: 1832176675005630640, guid: b8a2e70525c2cf64885dc1f4d9836413, type: 3}
+  - {fileID: 3465909408088147992, guid: a1bf1298483c44048b0c1957ed90c6e7, type: 3}
   spawnRadius: 10
   initialnumberOfMonsters: 5
   maxNumberOfMonsters: 10
@@ -14976,15 +14982,15 @@ MonoBehaviour:
   cooldown: 15
   minCooldown: 10
   maxCooldown: 20
-  portalDefending: 0
-  isPlayerInRange: 0
-  defenseMaxTime: 100
+  portalDefending: 1
+  isPlayerInRange: 1
+  defenseMaxTime: 10
   defenseUpValue: 1
   defenseDownValue: 0.25
-  defendRadius: 20
-  defenseActivationRadius: 10
-  teleportationTrigger: 0
-  sceneToLoad: 
+  defendRadius: 109.3
+  defenseActivationRadius: 100
+  teleportationTrigger: 1
+  sceneToLoad: Base
 --- !u!1 &1958101848504868
 GameObject:
   m_ObjectHideFlags: 0

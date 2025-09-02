@@ -50,10 +50,10 @@ public class MonsterSpawner : MonoBehaviour
     void Start()
     {
         InitialSpawnMonsters();
-        /*if (defenseActivationRadiusSphere == null)
+        if (defenseActivationRadiusSphere == null)
         {
             SpawnTransparentGreenSphere(transform.position, defenseActivationRadius);
-        }*/
+        }
     }
     /*
      * OLD TYPE WORKING FUNCTION IF NEEDED
@@ -364,11 +364,11 @@ public class MonsterSpawner : MonoBehaviour
                     portalDefending = true;
                     minCooldown *= (2 / 3);
                     maxCooldown *= (2 / 3);
-                    /*if (defenseActivationRadiusSphere != null)
+                    if (defenseActivationRadiusSphere != null)
                     {
                         Destroy(defenseActivationRadiusSphere);
                         defenseActivationRadiusSphere = null;
-                    }*/
+                    }
                     SpawnTransparentRedSphere(transform.position, defendRadius);
                 }
             }
