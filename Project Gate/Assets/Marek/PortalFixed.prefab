@@ -73,12 +73,12 @@ MonoBehaviour:
   portalDefending: 0
   isPlayerInRange: 0
   defenseMaxTime: 50
-  defenseUpValue: 1
+  defenseUpValue: 20
   defenseDownValue: 0.25
   defendRadius: 20
   defenseActivationRadius: 10
   teleportationTrigger: 0
-  sceneToLoad: SampleScene
+  sceneToLoad: Base
 --- !u!1001 &3311804531539707491
 PrefabInstance:
   m_ObjectHideFlags: 0
